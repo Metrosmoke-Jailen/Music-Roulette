@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <title>SoundSpin</title>
+
+    <style>
+body {
+background: #111;
+color: #fff;
+}
+</style>
+
+<body>
+    
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Music Roulette Wheel</h1>
+
+    <!-- Search Bar -->
+    <div class="row mb-3 justify-content-center">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search songs..." />
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Search List -->
+        <div class="col-md-6 mb-4">
+            <h4>Song List</h4>
+            <ul id="songList" class="list-group" style="max-height: 300px; overflow-y: auto;"></ul>
+        </div>
+
+    <!-- Selected Song List -->
+    <div class="col-md-6 mb-4">
+        <h4>Selected Songs</h4>
+        <ul id="selectedList" class="list-group" style="max-height: 300px; overflow-y: auto;"></ul>
+    </div>
+</div>
+
+    <!-- Roulette Wheel + Spin Button -->
+    <div class="text-center mt-4">
+        <div class="roulette-wheel" id="wheel">🎵</div>
+        <button id="spinButton" class="btn btn-primary btn-lg mt-3">Spin</button>
+    </div>
+</div>
+
+<script>
+// Sample songs
+const songs = [
+"Blinding Lights",
+"Bad Guy",
+"Levitating",
+"Shape of You",
+"Uptown Funk",
+"Happier Than Ever",
+"Peaches",
+"Seven Nation Army",
+"Rolling in the Deep",
+"Take On Me"
+];
+
+const songList = document.getElementById("songList");
+const selectedList = document.getElementById("selectedList");
+const searchInput = document.getElementById("searchInput");
+const wheel = document.getElementById("wheel");
+const spinButton = document.getElementById("spinButton");
+
+function renderSongs(filter = "") {
+songList.innerHTML = "";
+songs
+.filter(song => song.toLowerCase().includes(filter.toLowerCase()))
+.forEach(song => {
+const li = document.createElement("li");
+li.textContent = song;
+li.className = "list-group-item list-group-item-dark";
+li.style.cursor = "pointer";
+li.onclick = () => addSong(song);
+songList.appendChild(li);
+});
+}
+
+function addSong(song) {
+const li = document.createElement("li");
+li.textContent = song;
+li.className = "list-group-item list-group-item-secondary";
+selectedList.appendChild(li);
+}
+
+searchInput.addEventListener("input", () => renderSongs(searchInput.value));
+
+spinButton.onclick = () => {
+    const options = Array.from(selectedList.children).map(li => li.textContent);
+
+    if (options.length === 0) {
+        alert("Please select at least one song!");
+        return;
+    }
+
+    // Pick random selected song
+    const chosenTitle = options[Math.floor(Math.random() * options.length)];
+
+    // TEMP: use placeholder image  
+    const img = "https://via.placeholder.com/300";
+
+    // Redirect to wheel.html with song data
+    window.location.href =
+        `wheel.html?title=${encodeURIComponent(chosenTitle)}&img=${encodeURIComponent(img)}`;
+};
+
+renderSongs();
+</script>
+
+</body>
+</html>

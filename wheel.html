@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <title>SoundSpin</title>
+
+    <style>
+body {
+background: #111;
+color: #fff;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+flex-direction: column;
+text-align: center;
+}
+
+/* Wheel Container */
+#wheel {
+width: 350px;
+height: 350px;
+border-radius: 50%;
+border: 10px solid #fff;
+background: conic-gradient(
+#ff4d4d 0deg 60deg,
+#ffa64d 60deg 120deg,
+#ffff4d 120deg 180deg,
+#4dff4d 180deg 240deg,
+#4dd2ff 240deg 300deg,
+#b84dff 300deg 360deg
+);
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 1.5rem;
+font-weight: bold;
+color: #000;
+position: relative;
+}
+
+/* Pointer */
+.pointer {
+width: 0;
+height: 0;
+border-left: 20px solid transparent;
+border-right: 20px solid transparent;
+border-bottom: 30px solid #fff;
+position: absolute;
+top: -35px;
+}
+
+/* Spin Animation */
+.spin {
+animation: spinAnim 4s cubic-bezier(.17,.67,.5,1) forwards;
+}
+
+@keyframes spinAnim {
+from { transform: rotate(0deg); }
+to { transform: rotate(1440deg); }
+}
+</style>
+
+<body>
+
+    <h1 class="mb-4">Round and Round...</h1>
+
+    <div class="pointer"></div>
+    <div id="wheel"></div>
+
+<script>
+    // Apply spin animation automatically when loaded
+    const wheel = document.getElementById("wheel");
+
+    wheel.classList.add("spin");
+
+    // After spinning, redirect back with a result
+   setTimeout(() => {
+    const params = new URLSearchParams(window.location.search);
+    const title = params.get("title");
+    const img = params.get("img");
+
+    window.location.href =
+        `selected.html?title=${encodeURIComponent(title)}&img=${encodeURIComponent(img)}`;
+}, 4200);
+
+</script>
+
+    <style>
+
+    .wheel {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+
+      background-image:
+        conic-gradient(
+          red 0% 10%, 
+          yellow 10% 20%, 
+          lime 20% 30%, 
+          blue 30% 40%,
+          green 40% 50%);
+    }
+  </style>
+</body>
+</html>
